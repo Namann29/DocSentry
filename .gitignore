@@ -1,0 +1,16 @@
+backend/.env
+*.env
+backend/docsentry.db
+backend/storage/
+backend/corpus/out/
+backend/.pytest_cache/
+backend/.hypothesis/
+backend/.venv/
+**/__pycache__/
+*.pyc
+frontend/node_modules/
+frontend/dist/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

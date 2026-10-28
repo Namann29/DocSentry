@@ -1,0 +1,2 @@
+# Deep-learning OCR for photos and scans (pulls torch, ~200 MB). Install separately: pip install -r requirements-ocr.txt
+easyocr==1.7.2

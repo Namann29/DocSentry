@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 0 0 0; --sidebar: 8 8 8; --surface: 17 17 17; --surface2: 23 23 23; --line: 41 41 41;
+  --fg: 237 236 230; --fg2: 165 163 155; --muted: 119 117 110;
+  --accent: 215 255 100; --on-accent: 0 0 0;
+  --sev-warn: 229 163 77; --sev-high: 225 109 90; --sev-ok: 134 185 155;
+  --sev-warn-hex: #E5A34D; --sev-high-hex: #E16D5A; --sev-ok-hex: #86B99B; --muted-hex: #77756E;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-fog font-sans text-fg antialiased; font-size: 16px; line-height: 1.6; }
+  h1, h2, h3 { @apply font-display tracking-[-0.005em]; }
+  :focus-visible { @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-fog; }
+  table { @apply w-full border-collapse; }
+  ::selection { @apply bg-accent/30; }
+  .reveal { opacity: 0; transform: translateY(8px); transition: opacity 300ms ease-out, transform 300ms ease-out; }
+  .reveal.is-visible { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
+  }
+}
+
+@layer components {
+  .card { @apply rounded-md border border-line bg-surface; }
+  .btn { @apply inline-flex h-10 items-center gap-2 rounded px-4 text-[15px] font-medium transition-[background-color,border-color,color] duration-150 disabled:cursor-not-allowed disabled:opacity-50; }
+  .btn-primary { @apply btn bg-accent text-onaccent hover:brightness-110; }
+  .btn-secondary { @apply btn border border-line bg-surface text-fg hover:border-fg2; }
+  .btn-danger { @apply btn border border-red-500/50 bg-surface text-red-500 hover:border-red-500; }
+  .input { @apply h-10 w-full rounded border border-line bg-surface px-3 text-[15px] text-fg placeholder:text-muted transition-colors focus:border-accent; }
+  .label { @apply mb-1 block text-[13px] font-medium text-fg2; }
+  .eyebrow { @apply text-[13px] font-medium text-muted; }
+  .amount { @apply font-mono tabular-nums; }
+  .th { @apply border-b border-line px-3 py-2.5 text-left text-[13px] font-medium text-muted; }
+  .td { @apply border-b border-line/60 px-3 py-3 align-top text-[15px]; }
+  .num { @apply text-right tabular-nums; }
+  .mono { @apply font-mono text-xs; }
+  .link { @apply text-accent underline decoration-accent/40 underline-offset-2 transition-colors hover:decoration-accent; }
+  .chip { @apply inline-flex h-9 items-center gap-1.5 rounded-full border border-line bg-surface px-3.5 text-[14px] font-medium text-fg transition-colors hover:border-accent hover:text-accent disabled:opacity-50; }
+  .workspace { @apply rounded-md border border-line bg-surface2 text-fg; }
+  .stagger > * { animation: rise 220ms ease-out both; }
+  .stagger > *:nth-child(2) { animation-delay: 30ms } .stagger > *:nth-child(3) { animation-delay: 60ms } .stagger > *:nth-child(4) { animation-delay: 90ms } .stagger > *:nth-child(n+5) { animation-delay: 120ms }
+}
+/* ---- landing motion (CSS only; Intersection Observer toggles .is-visible) ---- */
+@keyframes heroRise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes scanOnce { 0% { top: 6%; opacity: 0; } 4% { opacity: 1; } 26% { top: 92%; opacity: 1; } 30% { opacity: 0; } 100% { top: 6%; opacity: 0; } }
+.hero-line { opacity: 0; animation: heroRise 550ms ease-out both; }
+.scan-occasional { animation: scanOnce 11s ease-in-out infinite; animation-delay: 1.2s; }
+.draw-x { transform: scaleX(0); transform-origin: left; transition: transform 600ms ease-out; }
+.draw-x.is-visible { transform: scaleX(1); }
+.grow-y { transform: scaleY(0); transform-origin: top; transition: transform 700ms ease-out; }
+.grow-y.is-visible { transform: scaleY(1); }
+.reveal-slow { opacity: 0; transform: translateY(14px); transition: opacity 600ms ease-out, transform 600ms ease-out; }
+.reveal-slow.is-visible { opacity: 1; transform: none; }
+.grid-fine { background-image: linear-gradient(rgb(var(--line) / 0.35) 1px, transparent 1px), linear-gradient(90deg, rgb(var(--line) / 0.35) 1px, transparent 1px); background-size: 32px 32px; }
+.hero-spot { background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgb(var(--accent) / 0.07), transparent 70%); }
+@media (hover: none), (pointer: coarse) { .hero-spot { background: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .hero-line, .reveal-slow, .draw-x, .grow-y { opacity: 1 !important; transform: none !important; animation: none !important; }
+  .scan-occasional { display: none; }
+}
